@@ -21,6 +21,7 @@
 package as3.hv.zinc.z3
 {
 	import as3.hv.core.console.Console;
+	import as3.hv.core.console.DebugLevel;
 	
 	import as3.hv.zinc.z3.console.cmd.*;
 	
@@ -143,7 +144,7 @@ package as3.hv.zinc.z3
 					Console.getInstance().writeln(
 							"Zinc launch failed: ",
 							DebugLevel.FATAL_ERROR,
-							" --> "+ error.toString();
+							" --> "+ error.toString()
 						);
 				}
 				ZincLauncher.error = true;
