@@ -80,7 +80,7 @@ package as3.hv.zinc.z3.console.cmd
 					+ "<br>Display: " + Capabilities.screenResolutionX 
 					+ "x" + Capabilities.screenResolutionY
 					+ "<br>"
-					+ "<br>Application Path: " + +mdm.Application.path;
+					+ "<br>Application Path: " + mdm.Application.path;
 					
 			Console.getInstance().writeln(msg, DebugLevel.COMMAND);
 			Console.getInstance().newLine();

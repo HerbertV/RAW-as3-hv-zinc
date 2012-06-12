@@ -21,6 +21,7 @@
 package as3.hv.zinc.z3
 {
 	import as3.hv.core.console.Console;
+	import as3.hv.core.console.DebugLevel;
 	
 	import mdm.*;
 	
