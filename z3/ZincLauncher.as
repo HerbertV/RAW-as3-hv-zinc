@@ -119,6 +119,11 @@ package as3.hv.zinc.z3
 							CmdSystem.CMD, 
 							new CmdSystem() 
 						);
+					// Memory CMD override
+					Console.getInstance().registerCommand( 
+							CmdMemory.CMD, 
+							new CmdMemory() 
+						);
 					
 					// show zinc is ready
 					Console.getInstance().writeln(
