@@ -123,7 +123,7 @@ package as3.hv.zinc.z3
 					// Memory CMD override
 					Console.getInstance().registerCommand( 
 							CmdMemory.CMD, 
-							new CmdMemory() 
+							CmdMemory.getInstance() 
 						);
 					
 					// show zinc is ready

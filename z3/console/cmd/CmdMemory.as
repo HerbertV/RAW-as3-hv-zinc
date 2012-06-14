@@ -40,6 +40,7 @@ package as3.hv.zinc.z3.console.cmd
 	import as3.hv.core.console.UIHeadline;
 	import as3.hv.core.console.UIStyles;
 	import as3.hv.core.console.UIButtonMinMax;
+	import as3.hv.core.console.cmd.IConsoleCommand;
 	
 	// =========================================================================
 	// Class CmdMemory
@@ -91,7 +92,7 @@ package as3.hv.zinc.z3.console.cmd
 			this.minimizedWidth = 120;
 			
 			memMin = TrueRandom.trunc( 
-					(System.totalMemory * B__TO_MB_MULTIPLIER),
+					(flash.system.System.totalMemory * B_TO_MB_MULTIPLIER),
 					3
 				);
 			memMax = TrueRandom.trunc( 
@@ -244,7 +245,7 @@ package as3.hv.zinc.z3.console.cmd
 			this.updateTimer = now;
 			
 			var memInMB:Number = TrueRandom.trunc(
-					(System.totalMemory * TO_MB_MULTIPLIER),
+					(flash.system.System.totalMemory * B_TO_MB_MULTIPLIER),
 					3
 				);
 			
