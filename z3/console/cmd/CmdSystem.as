@@ -65,7 +65,7 @@ package as3.hv.zinc.z3.console.cmd
 		 *
 		 * @param args 	not use by system		
 		 */
-		public function doCommand(args:Array):void
+		public function doCommand(args:Array=null):void
 		{
 			var cpu:Number = mdm.System.CPUSpeed / 1000;
 			var ram:Number = Math.round(mdm.System.RAMSize/1024/1024);
