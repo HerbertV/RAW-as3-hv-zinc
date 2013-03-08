@@ -13,7 +13,7 @@
  * @version: 1.0.0
  * -----------------------------------------------------------------------------
  *
- * Copyright (c) 2012 Herbert Veitengruber 
+ * Copyright (c) 2013 Herbert Veitengruber 
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
@@ -79,9 +79,11 @@ package as3.hv.zinc.z3.console.cmd
 		private var lblPeak:TextField;
 		
 		
-		// =====================================================================
-		// Constructor
-		// =====================================================================
+		/**
+		 * =====================================================================
+		 * Constructor
+		 * =====================================================================
+		 */
 		public function CmdMemory()
 		{
 			super(250,100);
@@ -198,6 +200,19 @@ package as3.hv.zinc.z3.console.cmd
 				Console.getInstance().parent.addChild(this);
 			else 
 				Console.getInstance().parent.removeChild(this);
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------
+		 * usesArguments
+		 * ---------------------------------------------------------------------
+		 * @see IConsoleCommand 
+		 *
+		 * @return
+		 */
+		public function usesArguments():Boolean
+		{
+			return false;
 		}
 		
 		/**
