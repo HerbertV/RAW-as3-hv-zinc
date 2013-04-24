@@ -1,20 +1,19 @@
 ﻿/*
- *    ___   ____                        __  
- *   / _ | / __/______  ___  ___ ___ __/ /_ 
- *  / __ |/ _// __/ _ \/ _ \/ _ `/ // / __/ 
- * /_/ |_/___/_/  \___/_//_/\_,_/\_,_/\__/
+ *  __  __      
+ * /\ \/\ \  __________   
+ * \ \ \_\ \/_______  /\   
+ *  \ \  _  \  ____/ / /  
+ *   \ \_\ \_\ \ \/ / / 
+ *    \/_/\/_/\ \ \/ /  
+ *             \ \  /
+ *              \_\/
  *
- * An unoffical custom aircraft, pilot design and editing tool 
- * for the out-of-print CRIMSON SKIES boardgame by created FASA. 
- * 
- * Inspired by Scott Janssens' CADET. 
- * Visit: http://www.foxforcefive.de/cs/
  * -----------------------------------------------------------------------------
  * @author: Herbert Veitengruber 
  * @version: 1.0.0
  * -----------------------------------------------------------------------------
  *
- * Copyright (c) 2009-2013 Herbert Veitengruber 
+ * Copyright (c) 2013 Herbert Veitengruber 
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
@@ -35,7 +34,7 @@ package as3.hv.zinc.z3.xml
 		
 		public var tag:String;
 		public var attribute:String;
-		public var filtervalue:String;
+		public var filtervalues:Array;
 		
 		/**
 		 * =====================================================================
@@ -44,17 +43,18 @@ package as3.hv.zinc.z3.xml
 		 * 
 		 * @param t		the tag to look for
 		 * @param a		the attribute from the tag
-		 * @param f		the filter value the attribute needs to pass the check
+		 * @param f		the filter values as Array the attribute need only 
+		 * 				to match one value to pass the test (or dependecy)
 		 */
 		public function XMLFileListFilter(
 				t:String, 
 				a:String,
-				f:String
+				f:Array
 			)
 		{
 			tag = t;
 			attribute = a;
-			filtervalue = f;
+			filtervalues = f;
 		}
 	
 		// =====================================================================
@@ -73,9 +73,13 @@ package as3.hv.zinc.z3.xml
 		 */
 		public function check(xml:XML):Boolean
 		{
-			if( xml..child(this.tag).attribute(this.attribute) == this.filtervalue )
-				return true;
+			var attrval:String = xml..child(this.tag).attribute(this.attribute);
 			
+			for( var i:int = 0; i < this.filtervalues.length; i++ )
+			{
+				if( attrval == this.filtervalues[i] )
+					return true;
+			}
 			return false;
 		}
 		
@@ -88,7 +92,7 @@ package as3.hv.zinc.z3.xml
 		 */
 		public function toString():String
 		{
-			return "XMLFileListFilter ["+tag+".@"+attribute+" == "+filtervalue+" ]";
+			return "XMLFileListFilter ["+tag+".@"+attribute+" == "+filtervalues+" ]";
 		}
 	
 	}

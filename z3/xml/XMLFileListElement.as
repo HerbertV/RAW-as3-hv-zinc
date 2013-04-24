@@ -1,20 +1,19 @@
 ﻿/*
- *    ___   ____                        __  
- *   / _ | / __/______  ___  ___ ___ __/ /_ 
- *  / __ |/ _// __/ _ \/ _ \/ _ `/ // / __/ 
- * /_/ |_/___/_/  \___/_//_/\_,_/\_,_/\__/
+ *  __  __      
+ * /\ \/\ \  __________   
+ * \ \ \_\ \/_______  /\   
+ *  \ \  _  \  ____/ / /  
+ *   \ \_\ \_\ \ \/ / / 
+ *    \/_/\/_/\ \ \/ /  
+ *             \ \  /
+ *              \_\/
  *
- * An unoffical custom aircraft, pilot design and editing tool 
- * for the out-of-print CRIMSON SKIES boardgame by created FASA. 
- * 
- * Inspired by Scott Janssens' CADET. 
- * Visit: http://www.foxforcefive.de/cs/
  * -----------------------------------------------------------------------------
  * @author: Herbert Veitengruber 
  * @version: 1.0.0
  * -----------------------------------------------------------------------------
  *
- * Copyright (c) 2009-2013 Herbert Veitengruber 
+ * Copyright (c) 2013 Herbert Veitengruber 
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
@@ -32,8 +31,9 @@ package as3.hv.zinc.z3.xml
 		// Variables
 		// =====================================================================
 		
-		// needs to be public for array sort on 
+		// contains the relative path to the file
 		public var filename:String;
+		// needs to be public for array sort on 
 		public var viewname:String;
 		
 		/**

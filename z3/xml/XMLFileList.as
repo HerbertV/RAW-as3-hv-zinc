@@ -1,14 +1,13 @@
 ﻿/*
- *    ___   ____                        __  
- *   / _ | / __/______  ___  ___ ___ __/ /_ 
- *  / __ |/ _// __/ _ \/ _ \/ _ `/ // / __/ 
- * /_/ |_/___/_/  \___/_//_/\_,_/\_,_/\__/
+ *  __  __      
+ * /\ \/\ \  __________   
+ * \ \ \_\ \/_______  /\   
+ *  \ \  _  \  ____/ / /  
+ *   \ \_\ \_\ \ \/ / / 
+ *    \/_/\/_/\ \ \/ /  
+ *             \ \  /
+ *              \_\/
  *
- * An unoffical custom aircraft, pilot design and editing tool 
- * for the out-of-print CRIMSON SKIES boardgame by created FASA. 
- * 
- * Inspired by Scott Janssens' CADET. 
- * Visit: http://www.foxforcefive.de/cs/
  * -----------------------------------------------------------------------------
  * @author: Herbert Veitengruber 
  * @version: 1.0.0
@@ -23,6 +22,7 @@ package as3.hv.zinc.z3.xml
 {
 	import mdm.*;
 	
+	import as3.hv.core.utils.StringHelper;
 	import as3.hv.core.xml.AbstractXMLProcessor;
 	
 	/**
@@ -115,7 +115,7 @@ package as3.hv.zinc.z3.xml
 		 * generates an array of FileListElements. 
 		 * Looks also into subpathes
 		 *
-		 * @param path
+		 * @param path	(absolute path)
 		 * @param basetag	
 		 *
 		 * @return 
@@ -125,8 +125,6 @@ package as3.hv.zinc.z3.xml
 				basetag:String
 			):Array
 		{
-			path = mdm.Application.path + path;
-			
 			var loadedxml:XML;
 			var arr:Array = new Array();
 			var myFiles:Array = mdm.FileSystem.getFileList(
@@ -148,9 +146,11 @@ package as3.hv.zinc.z3.xml
 				
 				if( !checkFilters(loadedxml) )
 					continue;
-						
+				
+				// store the relative path
+				var relative:String = StringHelper.replace(path, mdm.Application.path, "");
 				var fle:FileListElement = new FileListElement(
-						myFiles[i],
+						relative + myFiles[i],
 						loadedxml..child(viewTag)
 					);
 				arr.push(fle);
