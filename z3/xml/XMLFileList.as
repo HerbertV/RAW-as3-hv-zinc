@@ -104,7 +104,7 @@ package as3.hv.zinc.z3.xml
 		public function addFilter(
 				t:String, 
 				a:String, 
-				f:String
+				f:Array
 			):void
 		{
 			this.filters.push(new XMLFileListFilter(t, a, f));
@@ -154,7 +154,7 @@ package as3.hv.zinc.z3.xml
 					continue;
 				
 				// store the relative path
-				var fle:FileListElement = new FileListElement(
+				var fle:XMLFileListElement = new XMLFileListElement(
 						path + myFiles[i],
 						loadedxml..child(viewTag)
 					);
@@ -200,7 +200,7 @@ package as3.hv.zinc.z3.xml
 			for( var i:int=0; i<filelist.length; i++ ) 
 			{
 				xmlProcessor.loadXML(lastRootFolder + filelist[i].filename);
-				loadedxml = xmlProcessor.getXML();
+				var loadedxml:XML = xmlProcessor.getXML();
 				
 				if( loadedxml == null ) 
 					continue;

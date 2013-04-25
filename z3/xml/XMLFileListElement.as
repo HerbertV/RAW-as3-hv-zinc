@@ -43,7 +43,7 @@ package as3.hv.zinc.z3.xml
 		 * @param f
 		 * @param v
 		 */
-		public function FileListElement(
+		public function XMLFileListElement(
 				f:String, 
 				v:String
 			)
