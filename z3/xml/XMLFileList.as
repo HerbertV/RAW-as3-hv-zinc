@@ -48,6 +48,8 @@ package as3.hv.zinc.z3.xml
 		
 		private var xmlProcessor:XMLProcessorRW;
 		
+		private var lastRootFolder:String = "";
+		
 		/**
 		 * =====================================================================
 		 * Constructor
@@ -115,12 +117,14 @@ package as3.hv.zinc.z3.xml
 		 * generates an array of FileListElements. 
 		 * Looks also into subpathes
 		 *
-		 * @param path	(absolute path)
+		 * @param root (absolute path)
+		 * @param path	releative to root this part is stored with the filename.
 		 * @param basetag	
 		 *
 		 * @return 
 		 */
 		public function generate(
+				root:String,
 				path:String,
 				basetag:String
 			):Array
@@ -128,10 +132,12 @@ package as3.hv.zinc.z3.xml
 			var loadedxml:XML;
 			var arr:Array = new Array();
 			var myFiles:Array = mdm.FileSystem.getFileList(
-					path, 
+					root + path, 
 					"*" + this.extension
 				);
 			
+			lastRootFolder = root;
+				
 			for( var i:int=0; i<myFiles.length; i++ ) 
 			{
 				xmlProcessor.loadXML(path + myFiles[i]);
@@ -148,26 +154,63 @@ package as3.hv.zinc.z3.xml
 					continue;
 				
 				// store the relative path
-				var relative:String = StringHelper.replace(path, mdm.Application.path, "");
 				var fle:FileListElement = new FileListElement(
-						relative + myFiles[i],
+						path + myFiles[i],
 						loadedxml..child(viewTag)
 					);
 				arr.push(fle);
 			}
 			
-			var myDirs:Array = mdm.FileSystem.getFolderList(path);
+			var myDirs:Array = mdm.FileSystem.getFolderList(root + path);
 			
 			// now go one folder deeper
 			for ( var j:int = 0; j < myDirs.length; j++)
 			{
-				var subarr:Array = generate(path + myDirs[j], basetag);
+				var subarr:Array = generate(
+						root, 
+						path + myDirs[j], 
+						basetag
+					);
 				if ( subarr.length > 0 )
 					arr = arr.concat(subarr);
 			}
 			
 			return arr;
 		}
+		
+		/**
+		 * ---------------------------------------------------------------------
+		 * filter
+		 * ---------------------------------------------------------------------
+		 * for filtering an existing XMLFileList afterwards.
+		 *
+		 * @param filelist Array of XMLFileListElement
+		 * @param filters Array of XMLFileListFilter
+	     *
+		 * @return the filterd array
+		 */
+		public function filter(
+				filelist:Array, 
+				filters:Array
+			):Array
+		{
+			var arr:Array = new Array();
+			this.filters = filters;
+			
+			for( var i:int=0; i<filelist.length; i++ ) 
+			{
+				xmlProcessor.loadXML(lastRootFolder + filelist[i].filename);
+				loadedxml = xmlProcessor.getXML();
+				
+				if( loadedxml == null ) 
+					continue;
+				
+				if( checkFilters(loadedxml) )
+					arr.push( filelist[i] );
+			}
+			return arr;
+		}
+		
 		
 		/**
 		 * ---------------------------------------------------------------------
@@ -204,71 +247,6 @@ package as3.hv.zinc.z3.xml
 					
 			return arr;
 		}
-		
-		
-		
-// FIXME remove		
-		/**
-		 * ---------------------------------------------------------------------
-		 * generateFilteredLoadouts
-		 * ---------------------------------------------------------------------
-		 * generates an array of FileListElements. Filtered for Aircrafts.
-		 *
-		 * @param path 			
-		 * @param filterFile
-		 *
-		 * @returns				array of files
-		 */
-		/*
-		public static function generateFilteredLoadouts(
-				path:String,
-				filterFile:String
-			):Array
-		{
-			path = mdm.Application.path + path;
-			
-			if( filterFile.lastIndexOf("\\") > -1 )
-			{
-				filterFile = filterFile.substring(
-						(filterFile.lastIndexOf("\\")+1),
-						filterFile.length
-					);
-			}
-			
-			var arr:Array = new Array();
-			var myFiles:Array = mdm.FileSystem.getFileList(
-					path, 
-					"*" + Globals.AE_EXT
-				);
-			
-			for( var i:int=0; i<myFiles.length; i++ ) 
-			{
-				var loadedxml:XML = XMLProcessor.loadXML(path + myFiles[i]);
-				
-				if( loadedxml != null ) 
-				{
-					if( XMLProcessor.checkDoc(loadedxml) ) 
-					{
-						if( loadedxml.loadout.@srcAircraft == filterFile )
-						{
-							var fle:FileListElement = new FileListElement(
-									myFiles[i],
-									loadedxml..name[0]
-								);
-							arr.push(fle);
-						}
-					}
-				}
-			}
-			
-			if( arr.length > 1 ) 
-				arr.sortOn(
-						"viewname",
-						Array.CASEINSENSITIVE
-					);
-			
-			return arr;
-		}
-		*/
+	
 	}
 }
