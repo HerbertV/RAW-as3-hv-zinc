@@ -25,6 +25,10 @@ package as3.hv.zinc.z3.xml
 	import as3.hv.core.utils.StringHelper;
 	import as3.hv.core.xml.AbstractXMLProcessor;
 	
+	import as3.hv.core.console.Console;
+	import as3.hv.core.console.DebugLevel;
+	
+	
 	/**
 	 * =========================================================================
 	 * Class XMLFileList
@@ -56,7 +60,7 @@ package as3.hv.zinc.z3.xml
 		 * =====================================================================
 		 * 
 		 * @param ext
-		 * @param viewTag
+		 * @param viewTag is a text node
 		 */
 		public function XMLFileList(
 				ext:String,
@@ -140,23 +144,25 @@ package as3.hv.zinc.z3.xml
 				
 			for( var i:int=0; i<myFiles.length; i++ ) 
 			{
-				xmlProcessor.loadXML(path + myFiles[i]);
+				xmlProcessor.loadXML(root + path + myFiles[i]);
 				loadedxml = xmlProcessor.getXML();
 				
 				if( loadedxml == null ) 
 					continue;
-					
+				
 				if( !AbstractXMLProcessor.checkDoc(loadedxml)
-						|| loadedxml.child(basetag).length() < 1 )
+						|| loadedxml..child(basetag).length() < 1 )
 					continue;
 				
 				if( !checkFilters(loadedxml) )
 					continue;
-				
+					
 				// store the relative path
+				// view tag is a text node
+				var cv:XMLList = loadedxml..child(basetag).child(viewTag);
 				var fle:XMLFileListElement = new XMLFileListElement(
 						path + myFiles[i],
-						loadedxml..child(viewTag)
+						cv.text().toString()
 					);
 				arr.push(fle);
 			}
