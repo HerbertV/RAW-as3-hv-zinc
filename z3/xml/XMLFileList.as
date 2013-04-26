@@ -50,6 +50,8 @@ package as3.hv.zinc.z3.xml
 		
 		private var filters:Array;
 		
+		private var userdataQueries:Array;
+				
 		private var xmlProcessor:XMLProcessorRW;
 		
 		private var lastRootFolder:String = "";
@@ -71,6 +73,7 @@ package as3.hv.zinc.z3.xml
 			this.viewTag = view;
 			
 			this.filters = new Array();
+			this.userdataQueries = new Array();
 			
 			this.xmlProcessor = new XMLProcessorRW();
 		}
@@ -114,6 +117,38 @@ package as3.hv.zinc.z3.xml
 			this.filters.push(new XMLFileListFilter(t, a, f));
 		}
 		
+		
+		/**
+		 * ---------------------------------------------------------------------
+		 * clearUserDataQueries
+		 * ---------------------------------------------------------------------
+		 * removes all userdata queries
+		 */
+		public function clearUserDataQueries():void
+		{
+			this.userdataQueries = new Array();
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------
+		 * addUserDataQuery
+		 * ---------------------------------------------------------------------
+		 * adds a new user data query.
+		 * during the generation of the file list all queries extract
+		 * data from the xml and store them in the userdata of the 
+		 * XMLFileListElement.
+		 * 
+		 * @param t		the tag to look for
+		 * @param a		the attribute from the tag
+		 */
+		public function addUserDataQuery(
+				t:String, 
+				a:String
+			):void
+		{
+			this.userdataQueries.push(new XMLFileListUserDataQuery(t, a));
+		}
+				
 		/**
 		 * ---------------------------------------------------------------------
 		 * generate
@@ -157,12 +192,24 @@ package as3.hv.zinc.z3.xml
 				if( !checkFilters(loadedxml) )
 					continue;
 					
+				// look for userdata
+				var key:String;
+				var val:String;
+				var ud:Array = new Array();
+				for( var k:int = 0; k < this.userdataQuerys.length; k++ )
+				{
+					key = XMLFileListUserDataQuery(this.userdataQueries[k]).getKey();
+					val = XMLFileListUserDataQuery(this.userdataQueries[k]).query(loadedxml);
+					ud[key] = val;
+				}
+				
 				// store the relative path
 				// view tag is a text node
-				var cv:XMLList = loadedxml..child(basetag).child(viewTag);
+				var d:XMLList = loadedxml.descendants(viewTag)[0];
 				var fle:XMLFileListElement = new XMLFileListElement(
 						path + myFiles[i],
-						cv.text().toString()
+						d.text().toString(),
+						ud
 					);
 				arr.push(fle);
 			}
@@ -191,17 +238,18 @@ package as3.hv.zinc.z3.xml
 		 * for filtering an existing XMLFileList afterwards.
 		 *
 		 * @param filelist Array of XMLFileListElement
-		 * @param filters Array of XMLFileListFilter
+		 * @param f Array of XMLFileListFilter
 	     *
 		 * @return the filterd array
 		 */
 		public function filter(
 				filelist:Array, 
-				filters:Array
+				f:Array=null
 			):Array
 		{
 			var arr:Array = new Array();
-			this.filters = filters;
+			if( f != null )
+				this.filters = f;
 			
 			for( var i:int=0; i<filelist.length; i++ ) 
 			{

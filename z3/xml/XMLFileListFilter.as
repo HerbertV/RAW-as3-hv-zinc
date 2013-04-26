@@ -73,7 +73,7 @@ package as3.hv.zinc.z3.xml
 		 */
 		public function check(xml:XML):Boolean
 		{
-			var attrval:String = xml..child(this.tag).attribute(this.attribute);
+			var attrval:String = (xml.descendants(this.tag)[0]).attribute(this.attribute)[0];
 			
 			for( var i:int = 0; i < this.filtervalues.length; i++ )
 			{

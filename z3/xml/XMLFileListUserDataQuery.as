@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  __  __      
  * /\ \/\ \  __________   
  * \ \ \_\ \/_______  /\   
@@ -18,78 +18,87 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/mit-license.php
  */
-package as3.hv.zinc.z3.xml
+package as3.hv.zinc.z3.xml 
 {
 	/**
 	 * =========================================================================
-	 * Class XMLFileListElement
+	 * Class XMLFileListUserDataQuery
 	 * =========================================================================
+	 * for searching the xml for specific entries and storing them
+	 * as userdate into XMLFileListElement.
 	 */ 
-	public class XMLFileListElement
+	public class XMLFileListUserDataQuery 
 	{
 		// =====================================================================
 		// Variables
 		// =====================================================================
 		
-		// contains the relative path to the file
-		public var filename:String;
-		// needs to be public for array sort on 
-		public var viewname:String;
-		// for storing additional data associative
-		private var userdata:Array = new Array();
-		
+		public var tag:String;
+		public var attribute:String;
 		
 		/**
 		 * =====================================================================
 		 * Constructor
 		 * =====================================================================
-		 * @param f 
-		 * @param v
-		 * @param ud 
+		 * 
+		 * @param t		the tag to look for
+		 * @param a		the attribute from the tag
 		 */
-		public function XMLFileListElement(
-				f:String, 
-				v:String,
-				ud:Array = null
+		public function XMLFileListUserDataQuery(
+				t:String, 
+				a:String
 			)
 		{
-			filename = f;
-			viewname = v;
-			
-			if( ud != null )
-				userdata = ud;
+			this.tag = t;
+			this.attribute = a;
 		}
-	
 		
 		// =====================================================================
 		// Functions
 		// =====================================================================
-		
+				
 		/**
 		 * ---------------------------------------------------------------------
-		 * setUserData
+		 * createKey
 		 * ---------------------------------------------------------------------
-		 *
-		 * @param key
-		 * @param value
-		 */
-		public function setUserData(key:String, value:String)
-		{
-			this.userdata[key] = value;
-		}
-		
-		/**
-		 * ---------------------------------------------------------------------
-		 * getUserData
-		 * ---------------------------------------------------------------------
-		 *
+		 * creates a key for the XMLFileListElement userdata associative array
+		 * 
+		 * @param t
+		 * @param a
+		 * 
 		 * @return
 		 */
-		public function getUserData(key:String):String
+		public static function createKey(t:String, a:String):String
 		{
-			return this.userdata[key];
+			return t + "@" + a;
 		}
 				
+		/**
+		 * ---------------------------------------------------------------------
+		 * getKey
+		 * ---------------------------------------------------------------------
+		 * @return
+		 */
+		public function getKey():String
+		{
+			return XMLFileListUserDataQuery.createKey(this.tag,this.attribute);
+		}
+		
+		/**
+		 * ---------------------------------------------------------------------
+		 * query
+		 * ---------------------------------------------------------------------
+		 * looks for the attribute entry
+		 * 
+		 * @param xml
+		 * 
+		 * @return
+		 */
+		public function query(xml:XML):String
+		{
+			var val:String = (xml.descendants(this.tag)[0]).attribute(this.attribute);
+			return val;
+		}
 		
 		/**
 		 * ---------------------------------------------------------------------
@@ -100,8 +109,8 @@ package as3.hv.zinc.z3.xml
 		 */
 		public function toString():String
 		{
-			return "XMLFileListElement ["+filename+", "+viewname+" ]";
+			return "XMLFileListUserDataQuery ["+tag+".@"+attribute+"]";
 		}
-	
 	}
+
 }
