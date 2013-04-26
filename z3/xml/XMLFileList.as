@@ -196,7 +196,7 @@ package as3.hv.zinc.z3.xml
 				var key:String;
 				var val:String;
 				var ud:Array = new Array();
-				for( var k:int = 0; k < this.userdataQuerys.length; k++ )
+				for( var k:int = 0; k < this.userdataQueries.length; k++ )
 				{
 					key = XMLFileListUserDataQuery(this.userdataQueries[k]).getKey();
 					val = XMLFileListUserDataQuery(this.userdataQueries[k]).query(loadedxml);
@@ -205,7 +205,7 @@ package as3.hv.zinc.z3.xml
 				
 				// store the relative path
 				// view tag is a text node
-				var d:XMLList = loadedxml.descendants(viewTag)[0];
+				var d:XML = loadedxml.descendants(viewTag)[0];
 				var fle:XMLFileListElement = new XMLFileListElement(
 						path + myFiles[i],
 						d.text().toString(),
